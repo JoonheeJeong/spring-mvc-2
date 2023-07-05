@@ -28,5 +28,10 @@
     <li><pre>userMap.get('userA').getName() = <span th:text="${userMap.get('userA').getName()}"></span></pre></li>
 </ul>
 
+<h1> 지역 변수 </h1>
+<div th:with="first=${userList[0]}">
+    <p>처음 사람의 이름은 <span th:text="${first.name}"></span></p>
+</div>
+
 </body>
 </html>
