@@ -87,6 +87,12 @@ public class BasicController {
         return "basic/loop";
     }
 
+    @GetMapping("condition")
+    public String condition(Model model) {
+        addUsers(model);
+        return "basic/condition";
+    }
+
     private void addUsers(Model model) {
         List<User> users = new ArrayList<>();
         users.add(new User("UserA", 10));
