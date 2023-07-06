@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>반복문 loop</h1>
+<ul> 기본
+    <table border="1">
+        <tr>
+            <th>name</th>
+            <th>age</th>
+        </tr>
+        <tr th:each="user : ${users}">
+            <td th:text="${user.name}"></td>
+            <td th:text="${user.age}"></td>
+        </tr>
+    </table>
+</ul>
+<ul> 반복문 관리 편의기능
+    <table border="1">
+        <tr>
+            <th>index</th>
+            <th>count</th>
+            <th>size</th>
+            <th>even</th>
+            <th>odd</th>
+            <th>first</th>
+            <th>last</th>
+            <th>current</th>
+        </tr>
+        <tr th:each="user : ${users}">
+            <td th:text="${userStat.index}"></td>
+            <td th:text="${userStat.count}"></td>
+            <td th:text="${userStat.size}"></td>
+            <td th:text="${userStat.even}"></td>
+            <td th:text="${userStat.odd}"></td>
+            <td th:text="${userStat.first}"></td>
+            <td th:text="${userStat.last}"></td>
+            <td th:text="${userStat.current}"></td>
+        </tr>
+    </table>
+</ul>
+
+</body>
+</html>

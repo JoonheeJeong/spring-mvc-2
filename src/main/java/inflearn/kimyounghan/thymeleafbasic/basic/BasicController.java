@@ -81,7 +81,21 @@ public class BasicController {
         return "basic/attribute";
     }
 
-//    @Component
+    @GetMapping("loop")
+    public String loop(Model model) {
+        addUsers(model);
+        return "basic/loop";
+    }
+
+    private void addUsers(Model model) {
+        List<User> users = new ArrayList<>();
+        users.add(new User("UserA", 10));
+        users.add(new User("UserB", 20));
+        users.add(new User("UserC", 30));
+        model.addAttribute("users", users);
+    }
+
+    //    @Component
     @Component("helloBean")
     static class HelloBean {
         public String hello(String data) {
