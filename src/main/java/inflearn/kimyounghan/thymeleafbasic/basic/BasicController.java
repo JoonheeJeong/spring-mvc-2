@@ -93,6 +93,12 @@ public class BasicController {
         return "basic/condition";
     }
 
+    @GetMapping("comment")
+    public String comment(Model model) {
+        model.addAttribute("data", "Spring MVC2!");
+        return "basic/comment";
+    }
+
     private void addUsers(Model model) {
         List<User> users = new ArrayList<>();
         users.add(new User("UserA", 10));
