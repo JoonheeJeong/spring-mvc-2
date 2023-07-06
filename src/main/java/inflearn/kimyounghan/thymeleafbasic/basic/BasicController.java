@@ -69,6 +69,13 @@ public class BasicController {
         return "basic/literal";
     }
 
+    @GetMapping("operation")
+    public String operation(Model model) {
+        model.addAttribute("nullData", null);
+        model.addAttribute("data", "Spring MVC 2!");
+        return "basic/operation";
+    }
+
 //    @Component
     @Component("helloBean")
     static class HelloBean {
