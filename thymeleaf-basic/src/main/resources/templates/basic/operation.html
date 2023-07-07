@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>연산</h1>
+<ul>
+    <li>산술 연산
+        <ul>
+            <li>th:text="1 + 2" = <span th:text="1 + 2"></span></li>
+            <li>th:text="10 % 3" = <span th:text="10 % 3"></span></li>
+        </ul>
+    </li>
+    <li>비교 연산
+        <ul>
+            <li>th:text="1 &gt; 2" = <span th:text="1 &gt; 2"></span></li>
+            <li>th:text="1 gt 2" = <span th:text="1 gt 2"></span></li>
+            <li>th:text="1 ge 2" = <span th:text="1 ge 2"></span></li>
+            <li>th:text="1 >= 2" = <span th:text="1 >= 2"></span></li>
+            <li>th:text="1 le 2" = <span th:text="1 le 2"></span></li>
+            <li>th:text="1 lt 2" = <span th:text="1 lt 2"></span></li>
+            <li>th:text="1 < 2" = <span th:text="1 < 2"></span></li>
+            <li>th:text="1 == 2" = <span th:text="1 == 2"></span></li>
+            <li>th:text="1 != 2" = <span th:text="1 != 2"></span></li>
+        </ul>
+    </li>
+    <li>조건식
+        <ul>
+            <li>th:text="(10 % 2 == 0) ? '짝수' : '홀수'" = <span th:text="(10 % 2 == 0) ? '짝수' : '홀수'"></span></li>
+        </ul>
+    </li>
+    <li>Elvis 연산
+        <ul>
+            <li>th:text="${data} ?: '데이터가 없습니다.'" = <span th:text="${data} ?: '데이터가 없습니다.'"></span></li>
+            <li>th:text="${nullData} ?: '데이터가 없습니다.'" = <span th:text="${nullData} ?: '데이터가 없습니다.'"></span></li>
+        </ul>
+    </li>
+    <li>No-operation
+        <ul>
+            <li>th:text="${data} ?: _" = <span th:text="${data} ?: _">데이터가 없습니다.</span></li>
+            <li>th:text="${nullData} ?: _" = <span th:text="${nullData} ?: _ ">데이터가 없습니다.</span></li>
+        </ul>
+    </li>
+</ul>
+
+</body>
+</html>

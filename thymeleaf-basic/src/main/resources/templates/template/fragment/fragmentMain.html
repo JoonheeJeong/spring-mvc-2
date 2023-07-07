@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>fragmentMain</title>
+    <meta charset="UTF-8">
+</head>
+<body>
+
+<h1>템플릿 조각 template fragment -- 부분 포함</h1>
+
+<h2>insert</h2>
+<div th:insert="~{'/template/fragment/footer' :: copy}">insert</div>
+
+<h2>replace</h2>
+<div th:replace="~{'/template/fragment/footer' :: copy}"></div>
+
+<h2>단순 표현</h2>
+<div th:replace="'/template/fragment/footer' :: copy"></div>
+
+<h2>insert 파라미터</h2>
+<div th:insert="~{'/template/fragment/footer' :: copyParam ('Spring', 'MVC2')}"></div>
+
+<h2></h2>
+
+</body>
+</html>

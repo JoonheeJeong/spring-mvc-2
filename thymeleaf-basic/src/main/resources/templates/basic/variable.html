@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>객체 접근</h1>
+<h2>Object</h2>
+<ul>
+    <li><pre>userA.name      = <span th:text="${userA.getName()}"></span></pre></li>
+    <li><pre>userA['name']   = <span th:text="${userA.getName()}"></span></pre></li>
+    <li><pre>userA.getName() = <span th:text="${userA.getName()}"></span></pre></li>
+</ul>
+<h2>List</h2>
+<ul>
+    <li><pre>userList[0].name      = <span th:text="${userList[0].getName()}"></span></pre></li>
+    <li><pre>userList[0]['name']   = <span th:text="${userList[0].getName()}"></span></pre></li>
+    <li><pre>userList[0].getName() = <span th:text="${userList[0].getName()}"></span></pre></li>
+</ul>
+<h2>Map</h2>
+<ul>
+    <li><pre>userMap['userA'].name          = <span th:text="${userMap.get('userA').getName()}"></span></pre></li>
+    <li><pre>userMap['userA']['name']       = <span th:text="${userMap.get('userA').getName()}"></span></pre></li>
+    <li><pre>userMap['userA'].getName()     = <span th:text="${userMap.get('userA').getName()}"></span></pre></li>
+    <li><pre>userMap.get('userA').name      = <span th:text="${userMap.get('userA').getName()}"></span></pre></li>
+    <li><pre>userMap.get('userA')['name']   = <span th:text="${userMap.get('userA').getName()}"></span></pre></li>
+    <li><pre>userMap.get('userA').getName() = <span th:text="${userMap.get('userA').getName()}"></span></pre></li>
+</ul>
+
+<h1> 지역 변수 </h1>
+<div th:with="first=${userList[0]}">
+    <p>처음 사람의 이름은 <span th:text="${first.name}"></span></p>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>thymeleaf block</title>
+</head>
+<body>
+<h1>블록 block</h1>
+<th:block th:each="user : ${users}">
+    <div>
+        <p>사용자 이름 : [[${user.name}]]</p>
+        <p>사용자 나이 : [[${user.age}]]</p>
+    </div>
+    <div>
+        요약 : <span th:text="|${user.name} ${user.age}|"></span>
+    </div>
+    <p>================</p>
+</th:block>
+
+</body>
+</html>

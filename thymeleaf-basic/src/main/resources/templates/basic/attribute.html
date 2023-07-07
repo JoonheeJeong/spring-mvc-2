@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>속성 설정</h1>
+<ul>
+    <li>기본
+        <ul>
+            <li>name 속성 대체 <input type="text" name="mock" th:name="username"></li>
+            <li>name 속성 추가 <input type="text" th:name="username"></li>
+        </ul>
+    </li>
+    <li>append
+        <ul>
+            <li>th:attrappend="class=' attrappend'" <input type="text" class="spring" th:attrappend="class=' attrappend'"></li>
+            <li>th:attrprepend="class='attrprepend '" <input type="text" class="spring" th:attrprepend="class='attrprepend '"></li>
+            <li>th:classappend="mvc" <input type="text" class="spring" th:classappend="mvc"></li>
+        </ul>
+    </li>
+    <li>checked 처리
+        <ul>
+            <li>th:checked="true" <input type="checkbox" th:checked="true"></li>
+            <li>th:checked="false" <input type="checkbox" th:checked="false"></li>
+            <li>checked="false" <input type="checkbox" checked="false"></li>
+        </ul>
+    </li>
+</ul>
+
+</body>
+</html>
