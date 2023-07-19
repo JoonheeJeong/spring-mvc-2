@@ -113,7 +113,7 @@ public class ValidationItemControllerV2 {
         return "redirect:/validation/v2/items/{itemId}";
     }
 
-    @PostMapping("/add")
+//    @PostMapping("/add")
     public String addItemV3(@ModelAttribute Item item, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
 
         // 검증 로직
@@ -132,6 +132,44 @@ public class ValidationItemControllerV2 {
             int minTotalPrice = item.getPrice() * item.getQuantity();
             if (minTotalPrice < 10_000) {
                 bindingResult.addError(new ObjectError("item", new String[]{"minTotalPrice"}, new Object[]{10_000, minTotalPrice}, null));
+            }
+        }
+
+        // 에러 발생 시 에러 결과를 모델에 담아서 상품 등록 폼으로 리디렉션
+        if (bindingResult.hasErrors()) {
+            log.info("errors={}", bindingResult);
+            return "validation/v2/addForm";
+        }
+
+        // 정상 로직
+        Item savedItem = itemRepository.save(item);
+        redirectAttributes.addAttribute("itemId", savedItem.getId());
+        redirectAttributes.addAttribute("status", true);
+        return "redirect:/validation/v2/items/{itemId}";
+    }
+
+    @PostMapping("/add")
+    public String addItemV4(@ModelAttribute Item item, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+
+        log.info("objectName: {}", bindingResult.getObjectName());
+        log.info("target: {}", bindingResult.getTarget());
+
+        // 검증 로직
+        if (!StringUtils.hasText(item.getItemName())) {
+            bindingResult.rejectValue("itemName", "required");
+        }
+        if (item.getPrice() == null || item.getPrice() < 1_000 || item.getPrice() > 1_000_000) {
+            bindingResult.rejectValue("price", "range", new Object[]{1_000, 1_000_000}, null);
+        }
+        if (item.getQuantity() == null || item.getQuantity() < 0 || item.getQuantity() > 9_999) {
+            bindingResult.rejectValue("quantity", "max", new Object[]{9_999}, null);
+        }
+
+        // 검증 로직, 복합 룰
+        if (item.getPrice() != null && item.getQuantity() != null) {
+            int minTotalPrice = item.getPrice() * item.getQuantity();
+            if (minTotalPrice < 10_000) {
+                bindingResult.reject("minTotalPrice", new Object[]{10_000, minTotalPrice}, null);
             }
         }
 
