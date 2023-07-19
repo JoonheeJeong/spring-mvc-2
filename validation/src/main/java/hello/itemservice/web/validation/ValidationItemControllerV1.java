@@ -3,13 +3,18 @@ package hello.itemservice.web.validation;
 import hello.itemservice.domain.item.Item;
 import hello.itemservice.domain.item.ItemRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+@Slf4j
 @Controller
 @RequestMapping("/validation/v1/items")
 @RequiredArgsConstructor
@@ -38,7 +43,38 @@ public class ValidationItemControllerV1 {
     }
 
     @PostMapping("/add")
-    public String addItem(@ModelAttribute Item item, RedirectAttributes redirectAttributes) {
+    public String addItem(@ModelAttribute Item item, RedirectAttributes redirectAttributes, Model model) {
+
+        // 검증 결과 에러를 저장
+        Map<String, String> errors = new HashMap<>();
+
+        // 검증 로직
+        if (!StringUtils.hasText(item.getItemName())) {
+            errors.put("itemName", "상품 이름은 필수입니다.");
+        }
+        if (item.getPrice() == null || item.getPrice() < 1_000 || item.getPrice() > 1_000_000) {
+            errors.put("price", "상품 가격은 1,000원 이상 ~ 1,000,000원 이하이어야 합니다.");
+        }
+        if (item.getQuantity() == null || item.getQuantity() < 0 || item.getQuantity() > 9_999) {
+            errors.put("quantity", "상품 수량은 9,999개 이하이어야 합니다.");
+        }
+
+        // 검증 로직, 복합 룰
+        if (item.getPrice() != null && item.getQuantity() != null) {
+            int totalPrice = item.getPrice() * item.getQuantity();
+            if (totalPrice < 10_000) {
+                errors.put("totalPrice", "가격 * 수량의 합은 10,000원 이상이어야 합니다. 현재 값: " + totalPrice);
+            }
+        }
+
+        // 에러 발생 시 에러 결과를 모델에 담아서 상품 등록 폼으로 리디렉션
+        if (!errors.isEmpty()) {
+            log.info("errors={}", errors);
+            model.addAttribute("errors", errors);
+            return "validation/v1/addForm";
+        }
+
+        // 정상 로직
         Item savedItem = itemRepository.save(item);
         redirectAttributes.addAttribute("itemId", savedItem.getId());
         redirectAttributes.addAttribute("status", true);
