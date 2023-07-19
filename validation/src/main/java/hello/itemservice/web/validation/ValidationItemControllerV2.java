@@ -171,6 +171,7 @@ public class ValidationItemControllerV2 {
         if (item.getPrice() != null && item.getQuantity() != null) {
             int minTotalPrice = item.getPrice() * item.getQuantity();
             if (minTotalPrice < 10_000) {
+                // level.1으로 자동 적용
                 bindingResult.reject("minTotalPrice", new Object[]{10_000, minTotalPrice}, null);
             }
         }
