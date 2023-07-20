@@ -2,6 +2,8 @@ package hello.itemservice.web.validation;
 
 import hello.itemservice.domain.item.Item;
 import hello.itemservice.domain.item.ItemRepository;
+import hello.itemservice.domain.item.SaveCheck;
+import hello.itemservice.domain.item.UpdateCheck;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -42,8 +44,29 @@ public class ValidationItemControllerV3 {
         return "validation/v3/addForm";
     }
 
-    @PostMapping("/add")
+//    @PostMapping("/add")
     public String addItem(@Validated @ModelAttribute Item item, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+
+        validateGlobal(item, bindingResult);
+
+        // 에러 발생 시 에러 결과를 모델에 담아서 상품 등록 폼으로 포워딩
+        if (bindingResult.hasErrors()) {
+            log.info("errors={}", bindingResult);
+            return "validation/v3/addForm";
+        }
+
+        // 정상 로직
+        Item savedItem = itemRepository.save(item);
+        redirectAttributes.addAttribute("itemId", savedItem.getId());
+        redirectAttributes.addAttribute("status", true);
+        return "redirect:/validation/v3/items/{itemId}";
+    }
+
+    @PostMapping("/add")
+    public String addItemV2(
+            @Validated(SaveCheck.class) @ModelAttribute Item item,
+            BindingResult bindingResult,
+            RedirectAttributes redirectAttributes) {
 
         validateGlobal(item, bindingResult);
 
@@ -79,7 +102,7 @@ public class ValidationItemControllerV3 {
         return "validation/v3/editForm";
     }
 
-    @PostMapping("/{itemId}/edit")
+//    @PostMapping("/{itemId}/edit")
     public String edit(
             @PathVariable Long itemId, 
             @Valid @ModelAttribute Item item, 
@@ -92,6 +115,23 @@ public class ValidationItemControllerV3 {
             return "validation/v3/editForm";
         }
         
+        itemRepository.update(itemId, item);
+        return "redirect:/validation/v3/items/{itemId}";
+    }
+
+    @PostMapping("/{itemId}/edit")
+    public String editV2(
+            @PathVariable Long itemId,
+            @Validated(UpdateCheck.class) @ModelAttribute Item item,
+            BindingResult bindingResult) {
+
+        validateGlobal(item, bindingResult);
+
+        if (bindingResult.hasErrors()) {
+            log.info("bindingResult={}", bindingResult);
+            return "validation/v3/editForm";
+        }
+
         itemRepository.update(itemId, item);
         return "redirect:/validation/v3/items/{itemId}";
     }
