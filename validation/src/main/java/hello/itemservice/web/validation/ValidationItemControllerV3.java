@@ -11,6 +11,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @Slf4j
@@ -44,15 +45,7 @@ public class ValidationItemControllerV3 {
     @PostMapping("/add")
     public String addItem(@Validated @ModelAttribute Item item, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
 
-        // 검증 로직, 복합 룰
-        if (item.getPrice() != null && item.getQuantity() != null) {
-            final int MIN_TOTAL_PRICE = 10_000;
-            int totalPrice = item.getPrice() * item.getQuantity();
-            if (totalPrice < MIN_TOTAL_PRICE) {
-                // level.1으로 자동 적용
-                bindingResult.reject("minTotalPrice", new Object[]{MIN_TOTAL_PRICE, totalPrice}, null);
-            }
-        }
+        validateGlobal(item, bindingResult);
 
         // 에러 발생 시 에러 결과를 모델에 담아서 상품 등록 폼으로 포워딩
         if (bindingResult.hasErrors()) {
@@ -67,6 +60,18 @@ public class ValidationItemControllerV3 {
         return "redirect:/validation/v3/items/{itemId}";
     }
 
+    private void validateGlobal(Item item, BindingResult bindingResult) {
+        // 검증 로직, 복합 룰
+        if (item.getPrice() != null && item.getQuantity() != null) {
+            final int MIN_TOTAL_PRICE = 10_000;
+            int totalPrice = item.getPrice() * item.getQuantity();
+            if (totalPrice < MIN_TOTAL_PRICE) {
+                // level.1으로 자동 적용
+                bindingResult.reject("minTotalPrice", new Object[]{MIN_TOTAL_PRICE, totalPrice}, null);
+            }
+        }
+    }
+
     @GetMapping("/{itemId}/edit")
     public String editForm(@PathVariable Long itemId, Model model) {
         Item item = itemRepository.findById(itemId);
@@ -75,7 +80,18 @@ public class ValidationItemControllerV3 {
     }
 
     @PostMapping("/{itemId}/edit")
-    public String edit(@PathVariable Long itemId, @ModelAttribute Item item) {
+    public String edit(
+            @PathVariable Long itemId, 
+            @Valid @ModelAttribute Item item, 
+            BindingResult bindingResult) {
+
+        validateGlobal(item, bindingResult);
+
+        if (bindingResult.hasErrors()) {
+            log.info("bindingResult={}", bindingResult);
+            return "validation/v3/editForm";
+        }
+        
         itemRepository.update(itemId, item);
         return "redirect:/validation/v3/items/{itemId}";
     }
