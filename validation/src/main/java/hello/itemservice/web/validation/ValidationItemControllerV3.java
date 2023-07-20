@@ -44,6 +44,16 @@ public class ValidationItemControllerV3 {
     @PostMapping("/add")
     public String addItem(@Validated @ModelAttribute Item item, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
 
+        // 검증 로직, 복합 룰
+        if (item.getPrice() != null && item.getQuantity() != null) {
+            final int MIN_TOTAL_PRICE = 10_000;
+            int totalPrice = item.getPrice() * item.getQuantity();
+            if (totalPrice < MIN_TOTAL_PRICE) {
+                // level.1으로 자동 적용
+                bindingResult.reject("minTotalPrice", new Object[]{MIN_TOTAL_PRICE, totalPrice}, null);
+            }
+        }
+
         // 에러 발생 시 에러 결과를 모델에 담아서 상품 등록 폼으로 포워딩
         if (bindingResult.hasErrors()) {
             log.info("errors={}", bindingResult);

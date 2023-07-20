@@ -9,10 +9,10 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 @Data
-@ScriptAssert(
-        lang = "javascript",
-        script = "_this.price * _this.quantity >= 10000",
-        message = "상품의 가격 * 수량의 합은 10000원 이상이어야 합니다.")
+//@ScriptAssert(
+//        lang = "javascript",
+//        script = "_this.price * _this.quantity >= 10000",
+//        message = "상품의 가격 * 수량의 합은 10000원 이상이어야 합니다.")
 public class Item {
 
     private Long id;
