@@ -74,7 +74,7 @@ public class ValidationItemControllerV2 {
             }
         }
 
-        // 에러 발생 시 에러 결과를 모델에 담아서 상품 등록 폼으로 리디렉션
+        // 에러 발생 시 에러 결과를 모델에 담아서 상품 등록 폼으로 포워딩
         if (bindingResult.hasErrors()) {
             log.info("errors={}", bindingResult);
             return "validation/v2/addForm";
@@ -109,7 +109,7 @@ public class ValidationItemControllerV2 {
             }
         }
 
-        // 에러 발생 시 에러 결과를 모델에 담아서 상품 등록 폼으로 리디렉션
+        // 에러 발생 시 에러 결과를 모델에 담아서 상품 등록 폼으로 포워딩
         if (bindingResult.hasErrors()) {
             log.info("errors={}", bindingResult);
             return "validation/v2/addForm";
@@ -144,7 +144,7 @@ public class ValidationItemControllerV2 {
             }
         }
 
-        // 에러 발생 시 에러 결과를 모델에 담아서 상품 등록 폼으로 리디렉션
+        // 에러 발생 시 에러 결과를 모델에 담아서 상품 등록 폼으로 포워딩
         if (bindingResult.hasErrors()) {
             log.info("errors={}", bindingResult);
             return "validation/v2/addForm";
@@ -184,7 +184,7 @@ public class ValidationItemControllerV2 {
             }
         }
 
-        // 에러 발생 시 에러 결과를 모델에 담아서 상품 등록 폼으로 리디렉션
+        // 에러 발생 시 에러 결과를 모델에 담아서 상품 등록 폼으로 포워딩
         if (bindingResult.hasErrors()) {
             log.info("errors={}", bindingResult);
             return "validation/v2/addForm";
@@ -202,7 +202,7 @@ public class ValidationItemControllerV2 {
 
         itemValidator.validate(item, bindingResult);
 
-        // 에러 발생 시 에러 결과를 모델에 담아서 상품 등록 폼으로 리디렉션
+        // 에러 발생 시 에러 결과를 모델에 담아서 상품 등록 폼으로 포워딩
         if (bindingResult.hasErrors()) {
             log.info("errors={}", bindingResult);
             return "validation/v2/addForm";
@@ -218,7 +218,7 @@ public class ValidationItemControllerV2 {
     @PostMapping("/add")
     public String addItemV6(@Validated @ModelAttribute Item item, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
 
-        // 에러 발생 시 에러 결과를 모델에 담아서 상품 등록 폼으로 리디렉션
+        // 에러 발생 시 에러 결과를 모델에 담아서 상품 등록 폼으로 포워딩
         if (bindingResult.hasErrors()) {
             log.info("errors={}", bindingResult);
             return "validation/v2/addForm";

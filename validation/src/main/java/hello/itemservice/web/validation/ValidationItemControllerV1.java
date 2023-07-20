@@ -67,7 +67,7 @@ public class ValidationItemControllerV1 {
             }
         }
 
-        // 에러 발생 시 에러 결과를 모델에 담아서 상품 등록 폼으로 리디렉션
+        // 에러 발생 시 에러 결과를 모델에 담아서 상품 등록 폼으로 포워딩
         if (!errors.isEmpty()) {
             log.info("errors={}", errors);
             model.addAttribute("errors", errors);
