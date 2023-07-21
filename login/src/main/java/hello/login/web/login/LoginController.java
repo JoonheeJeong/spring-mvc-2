@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 @RequiredArgsConstructor
@@ -24,7 +26,8 @@ public class LoginController {
     @PostMapping("/login")
     public String login(
             @Valid @ModelAttribute LoginForm form,
-            BindingResult bindingResult) {
+            BindingResult bindingResult,
+            HttpServletResponse response) {
 
         Member member = loginService.login(form.getLoginId(), form.getPassword());
         if (member == null) {
@@ -35,7 +38,8 @@ public class LoginController {
             return "login/login-form";
         }
 
-        // TODO login 성공 로직
+        Cookie cookie = new Cookie("memberId", Long.toString(member.getId()));
+        response.addCookie(cookie);
 
         return "redirect:/";
     }
