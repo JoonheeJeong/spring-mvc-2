@@ -2,23 +2,23 @@ package hello.login.web;
 
 import hello.login.web.member.Member;
 import hello.login.web.member.MemberRepository;
+import hello.login.web.session.SessionManager;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpServletRequest;
 
 @RequiredArgsConstructor
 @Controller
 public class HomeController {
 
     private final MemberRepository memberRepository;
+    private final SessionManager sessionManager;
 
-    @GetMapping("/")
+//    @GetMapping("/")
     public String getHomePage(
             @CookieValue(required = false) Long memberId,
             Model model) {
@@ -28,6 +28,21 @@ public class HomeController {
         }
 
         Member loginMember = memberRepository.findById(memberId);
+        if (loginMember == null) {
+            return "home";
+        }
+
+        model.addAttribute("member", loginMember);
+
+        return "home-login";
+    }
+
+    @GetMapping("/")
+    public String getHomePageRawSession(
+            HttpServletRequest request,
+            Model model) {
+
+        Member loginMember = sessionManager.getSession(request);
         if (loginMember == null) {
             return "home";
         }
