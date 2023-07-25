@@ -1,5 +1,6 @@
 package hello.login.web;
 
+import hello.login.web.argumentresolver.Login;
 import hello.login.web.member.Member;
 import hello.login.web.member.MemberRepository;
 import hello.login.web.session.SessionManager;
@@ -74,9 +75,22 @@ public class HomeController {
         return "home-login";
     }
 
-    @GetMapping("/")
+//    @GetMapping("/")
     public String getHomePageSessionAttribute(
             @SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) Member loginMember,
+            Model model) {
+
+        if (loginMember == null) {
+            return "home";
+        }
+
+        model.addAttribute("member", loginMember);
+        return "home-login";
+    }
+
+    @GetMapping("/")
+    public String getHomePageArgumentResolver(
+            @Login Member loginMember,
             Model model) {
 
         if (loginMember == null) {
