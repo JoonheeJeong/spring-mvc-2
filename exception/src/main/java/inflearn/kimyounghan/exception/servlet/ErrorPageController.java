@@ -1,11 +1,16 @@
 package inflearn.kimyounghan.exception.servlet;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 @Slf4j
 @Controller
@@ -28,9 +33,26 @@ public class ErrorPageController {
 
     @RequestMapping("/error-page/500")
     public String getErrorPage500(HttpServletRequest request, HttpServletResponse response) {
-        log.info("/error-page/500");
+        log.info("에러 페이지 500");
         printErrorInfo(request);
         return "error-page/500";
+    }
+
+    @RequestMapping(value = "/error-page/500", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Map<String, Object>> getErrorApi500(HttpServletRequest request, HttpServletResponse response) {
+
+        log.info("에러 API 500");
+
+        Integer status = (Integer) request.getAttribute(ERROR_STATUS_CODE);
+        Exception exception = (Exception) request.getAttribute(ERROR_EXCEPTION);
+
+        Map<String, Object> result = new LinkedHashMap<>();
+        result.put("status", status);
+        result.put("message", exception.getMessage());
+        result.put("exception", request.getAttribute(ERROR_EXCEPTION_TYPE));
+        result.put("path", request.getAttribute(ERROR_REQUEST_URI));
+
+        return new ResponseEntity<>(result, HttpStatus.valueOf(status));
     }
 
     private void printErrorInfo(HttpServletRequest request) {
