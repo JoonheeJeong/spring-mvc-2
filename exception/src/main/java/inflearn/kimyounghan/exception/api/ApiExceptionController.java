@@ -5,10 +5,12 @@ import inflearn.kimyounghan.exception.exception.UserException;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
 @Slf4j
 @RequestMapping("/api")
@@ -32,6 +34,11 @@ public class ApiExceptionController {
     @GetMapping("/response-status-ex1")
     public void throwExceptionAnnotatedResponseStatus() {
         throw new BadRequestException();
+    }
+
+    @GetMapping("/response-status-ex2")
+    public void throwResponseStatusException() {
+        throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "error.bad", new IllegalArgumentException());
     }
 
     @Getter
