@@ -1,5 +1,6 @@
 package inflearn.kimyounghan.exception.api;
 
+import inflearn.kimyounghan.exception.exception.BadRequestException;
 import inflearn.kimyounghan.exception.exception.UserException;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -26,6 +27,11 @@ public class ApiExceptionController {
         }
 
         return new MemberDto(id, "Hello, " + id);
+    }
+
+    @GetMapping("/response-status-ex1")
+    public void throwExceptionAnnotatedResponseStatus() {
+        throw new BadRequestException();
     }
 
     @Getter

@@ -29,8 +29,8 @@ public class WebConfig implements WebMvcConfigurer {
         registry.addInterceptor(new LogInterceptor())
                 .order(1)
                 .addPathPatterns("/**")
-                .excludePathPatterns("/css/**", "/error-page/**");
-//                .excludePathPatterns("/css/**");
+//                .excludePathPatterns("/css/**", "/error-page/**");
+                .excludePathPatterns("/css/**");
     }
 
 //    @Bean
