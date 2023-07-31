@@ -1,5 +1,6 @@
 package inflearn.kimyounghan.exception.api;
 
+import inflearn.kimyounghan.exception.exception.UserException;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
@@ -13,10 +14,13 @@ public class ApiExceptionController {
 
     @GetMapping("/api/members/{id}")
     public MemberDto getMember(@PathVariable String id) {
-        if (id.equals("ex")) {
-            throw new RuntimeException("잘못된 사용자");
-        } else if (id.equals("bad")) {
-            throw new IllegalArgumentException("잘못된 입력");
+        switch (id) {
+            case "ex":
+                throw new RuntimeException("잘못된 사용자");
+            case "bad":
+                throw new IllegalArgumentException("잘못된 입력");
+            case "user-ex":
+                throw new UserException("사용자 오류");
         }
 
         return new MemberDto(id, "Hello, " + id);

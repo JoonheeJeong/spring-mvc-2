@@ -2,6 +2,7 @@ package inflearn.kimyounghan.exception;
 
 import inflearn.kimyounghan.exception.interceptor.LogInterceptor;
 import inflearn.kimyounghan.exception.resolver.MyHandlerExceptionResolver;
+import inflearn.kimyounghan.exception.resolver.UserHandlerExceptionResolver;
 import inflearn.kimyounghan.exception.servlet.filter.LogFilter;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
@@ -19,6 +20,7 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void extendHandlerExceptionResolvers(List<HandlerExceptionResolver> resolvers) {
         resolvers.add(new MyHandlerExceptionResolver());
+        resolvers.add(new UserHandlerExceptionResolver());
     }
 
     @Override
