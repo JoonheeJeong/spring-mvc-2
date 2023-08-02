@@ -1,31 +1,18 @@
-package inflearn.kimyounghan.exception.api;
+package inflearn.kimyounghan.exception.exception.advice;
 
+import inflearn.kimyounghan.exception.api.applyadvice.ErrorResult;
+import inflearn.kimyounghan.exception.api.applyadvice.ExceptionHandlerApiExceptionController;
 import inflearn.kimyounghan.exception.exception.UserException;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @Slf4j
-@RequestMapping("/api2")
-@RestController
-public class ExceptionHandlerApiExceptionController {
-
-    @GetMapping("/members/{id}")
-    public MemberDto getMember(@PathVariable String id) {
-        switch (id) {
-            case "ex":
-                throw new RuntimeException("잘못된 사용자");
-            case "bad":
-                throw new IllegalArgumentException("잘못된 입력");
-            case "user-ex":
-                throw new UserException("사용자 오류");
-        }
-
-        return new MemberDto(id, "Hello, " + id);
-    }
+@RestControllerAdvice(basePackageClasses = ExceptionHandlerApiExceptionController.class)
+public class ExControllerAdvice {
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(IllegalArgumentException.class)
@@ -45,13 +32,6 @@ public class ExceptionHandlerApiExceptionController {
     public ResponseEntity<ErrorResult> resolveUserException(UserException e) {
         log.info("resolveUserException", e);
         return new ResponseEntity<>(new ErrorResult("USER-EX", e.getMessage()), HttpStatus.BAD_REQUEST);
-    }
-
-    @Getter
-    @AllArgsConstructor
-    private static class ErrorResult {
-        private final String code;
-        private final String message;
     }
 
 }
