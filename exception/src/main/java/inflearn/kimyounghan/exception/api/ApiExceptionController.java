@@ -2,8 +2,6 @@ package inflearn.kimyounghan.exception.api;
 
 import inflearn.kimyounghan.exception.exception.BadRequestException;
 import inflearn.kimyounghan.exception.exception.UserException;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -43,11 +41,4 @@ public class ApiExceptionController {
         return "ok";
     }
 
-    @Getter
-    @AllArgsConstructor
-    private static class MemberDto {
-
-        private final String id;
-        private final String name;
-    }
 }
